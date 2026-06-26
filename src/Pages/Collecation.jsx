@@ -1,9 +1,10 @@
 import React from 'react'
+import "../assets/Style.css";
 
 export default function Collecation() {
   return (
     <div>
-      <section className="hero">
+      <section className="co-hero">
 
 <div className="overlay"></div>
 

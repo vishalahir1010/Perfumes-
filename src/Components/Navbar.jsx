@@ -41,7 +41,7 @@ LUXE SCENT
 
 <li><NavLink to="/shop">Shop</NavLink></li>
 
-<li><NavLink to="/collection">Collections</NavLink></li>
+<li><NavLink to="/Collecation">Collections</NavLink></li>
 
 <li><NavLink to="/newarrivals">New Arrivals</NavLink></li>
 
