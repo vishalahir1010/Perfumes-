@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../assets/Style.css";
+
 
 export default function Checkout() {
 

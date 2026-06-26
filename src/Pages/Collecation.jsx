@@ -1,5 +1,4 @@
 import React from 'react'
-import "../assets/Style.css";
 
 export default function Collecation() {
   return (
