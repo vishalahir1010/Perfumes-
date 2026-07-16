@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
+import "../styles/Auth.css";
+
 
 export default function Login() {
 
@@ -14,16 +16,10 @@ if(!email || !password){
 
 alert("Please fill all fields");
 return;
-
 }
+const users=JSON.parse(localStorage.getItem("users"))||[];
 
-const users=
-JSON.parse(
-localStorage.getItem("users")
-)||[];
-
-const user=users.find(
-u=>
+const user=users.find(u=>
 u.email===email &&
 u.password===password
 );
@@ -39,11 +35,7 @@ navigate("/signup");
 return;
 
 }
-
-localStorage.setItem(
-"currentUser",
-JSON.stringify(user)
-);
+localStorage.setItem("currentUser",JSON.stringify(user));
 
 alert("Login Successful");
 
@@ -96,8 +88,7 @@ onChange={(e)=>setPassword(e.target.value)}
 
 <button
 onClick={handleLogin}
-className="login-submit"
->
+className="login-submit">
 
 Login
 
@@ -107,7 +98,7 @@ Login
 
 Don't have account?
 
-<NavLink to="/Signup">
+<NavLink to="/signup">
 Create Account
 </NavLink>
 

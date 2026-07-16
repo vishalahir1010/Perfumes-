@@ -21,6 +21,7 @@ import { ThemContext } from './Pages/ThemContext'
 import "./App.css"
 import Cart from './Pages/Cart'
 import Checkout from './Pages/Checkout'
+import Profile from './Pages/Profile'
 
 
 function App() {
@@ -36,16 +37,18 @@ function App() {
    <Routes>
 
     <Route path="/" element={<Index/>}></Route>
-    <Route path="/Shop" element={<Shop/>}></Route>
-    <Route path="/Collecation" element={<Collecation/>}></Route>
-    <Route path="/Newarrivals" element={<Newarrivals/>}></Route>
-    <Route path="/About" element={<About/>}></Route>
-    <Route path="/Bestsellers" element={<Bestsellers/>}></Route>
-    <Route path="/Contact" element={<Contact/>}></Route>
-    <Route path="/Login" element={<Login/>}></Route>
+    <Route path="/shop" element={<Shop/>}></Route>
+    <Route path="/collecation" element={<Collecation/>}></Route>
+    <Route path="/newarrivals" element={<Newarrivals/>}></Route>
+    <Route path="/about" element={<About/>}></Route>
+    <Route path="/bestsellers" element={<Bestsellers/>}></Route>
+    <Route path="/contact" element={<Contact/>}></Route>
+    <Route path="/login" element={<Login/>}></Route>
     <Route path="/signup" element={<Signup/>}/>
-    <Route path="/Cart" element={<Cart/>}/>
-    <Route path="/Checkout" element={<Checkout/>}/>
+    <Route path="/cart" element={<Cart/>}/>
+    <Route path="/checkout" element={<Checkout/>}/>
+    <Route path="/profile" element={<Profile/>}/>
+    <Route path="/orders" element={<Profile/>}/>
    </Routes>
    <Footer/>
    </BrowserRouter>

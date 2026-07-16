@@ -1,0 +1,25 @@
+/* =========================
+   COLLECTION PAGE STYLES
+   ========================= */
+.collection-section {
+  padding: 80px 6%;
+  background: var(--bg-primary);
+  text-align: center;
+}
+
+.collection-section h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 30px;
+}
+
+/* =========================
+   RESPONSIVE OVERRIDES
+   ========================= */
+@media (max-width: 1024px) {
+  .collection-section {
+    padding: 60px 4%;
+  }
+}

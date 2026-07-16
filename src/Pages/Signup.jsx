@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import "../styles/Auth.css";
 
 export default function Signup() {
 
@@ -12,12 +13,7 @@ const [confirmPassword,setConfirmPassword]=useState("");
 
 const registerUser=()=>{
 
-if(
-!name ||
-!email ||
-!password ||
-!confirmPassword
-){
+if(!name ||!email ||!password ||!confirmPassword){
 alert("Fill all fields");
 return;
 }
@@ -27,31 +23,18 @@ alert("Password not match");
 return;
 }
 
-let users=
-JSON.parse(
-localStorage.getItem("users")
-)||[];
+let users=JSON.parse(localStorage.getItem("users"))||[];
 
-let exist=
-users.find(
-u=>u.email===email
-);
+let exist=users.find(u=>u.email===email);
 
 if(exist){
 alert("Account already exists");
 return;
 }
 
-users.push({
-name,
-email,
-password
-});
+users.push({name,email,password});
 
-localStorage.setItem(
-"users",
-JSON.stringify(users)
-);
+localStorage.setItem("users",JSON.stringify(users));
 
 alert("Account Created");
 
