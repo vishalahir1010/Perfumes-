@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "../styles/Auth.css";
+import { showToast } from "../utils/toast.js";
 
 export default function Signup() {
 
@@ -14,12 +15,12 @@ const [confirmPassword,setConfirmPassword]=useState("");
 const registerUser=()=>{
 
 if(!name ||!email ||!password ||!confirmPassword){
-alert("Fill all fields");
+showToast("Fill all fields", "error");
 return;
 }
 
 if(password!==confirmPassword){
-alert("Password not match");
+showToast("Password not match", "error");
 return;
 }
 
@@ -28,7 +29,7 @@ let users=JSON.parse(localStorage.getItem("users"))||[];
 let exist=users.find(u=>u.email===email);
 
 if(exist){
-alert("Account already exists");
+showToast("Account already exists", "error");
 return;
 }
 
@@ -36,7 +37,7 @@ users.push({name,email,password});
 
 localStorage.setItem("users",JSON.stringify(users));
 
-alert("Account Created");
+showToast("Account Created", "success");
 
 navigate("/login");
 

@@ -31,48 +31,7 @@
   padding-top: 40px;
 }
 
-/* =========================
-   PREMIUM LOADER SPINNER
-   ========================= */
-.premium-loader {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 350px;
-  width: 100%;
-  grid-column: 1 / -1;
-  padding: 40px 0;
-}
 
-.spinner {
-  width: 55px;
-  height: 55px;
-  border: 3px solid var(--border-color);
-  border-top-color: var(--accent-gold);
-  border-radius: 50%;
-  animation: spin 1s infinite linear;
-}
-
-.loading-text {
-  margin-top: 24px;
-  font-family: 'Playfair Display', serif;
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  letter-spacing: 3px;
-  animation: pulse 1.6s infinite ease-in-out;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
-}
 
 /* =========================
    PREMIUM FILTER NAV BAR
@@ -130,3 +89,276 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* =========================
+   ENHANCED SEARCH BAR & OPTIONS
+   ========================= */
+.search-bar-section {
+  max-width: 700px;
+  margin: 0 auto 40px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0 15px;
+}
+
+.search-container-shop {
+  position: relative;
+  width: 100%;
+}
+
+.search-form-shop {
+  position: relative;
+  width: 100%;
+}
+
+.search-input-wrapper-shop {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.search-icon-shop {
+  position: absolute;
+  left: 20px;
+  font-size: 22px;
+  color: var(--text-secondary);
+  pointer-events: none;
+}
+
+.search-input-shop {
+  width: 100%;
+  height: 54px;
+  padding: 0 50px 0 55px;
+  font-size: 16px;
+  border-radius: 30px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  outline: none;
+  font-family: inherit;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: var(--shadow-sm);
+}
+
+.search-input-shop:focus {
+  border-color: var(--accent-gold);
+  background: var(--bg-primary);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+}
+
+.clear-btn-shop {
+  position: absolute;
+  right: 20px;
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.clear-btn-shop:hover {
+  color: var(--accent-gold);
+}
+
+/* Glassmorphic Suggestions Dropdown */
+.suggestions-dropdown-shop {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 100%;
+  background: rgba(18, 18, 22, 0.9); /* fallback dark bg */
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  box-shadow: var(--shadow-md);
+  z-index: 100;
+  max-height: 400px;
+  overflow-y: auto;
+  text-align: left;
+  padding: 15px 0;
+  animation: slideDown 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* For light theme backdrop */
+.light .suggestions-dropdown-shop {
+  background: rgba(245, 244, 240, 0.95);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.suggestions-group-shop {
+  margin-bottom: 15px;
+}
+
+.suggestions-group-shop:last-child {
+  margin-bottom: 0;
+}
+
+.suggestions-group-title-shop {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--accent-gold);
+  padding: 6px 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.light .suggestions-group-title-shop {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.suggestion-item-shop {
+  padding: 10px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.suggestion-item-shop:hover {
+  background-color: rgba(212, 175, 55, 0.12);
+  transform: translateX(4px);
+}
+
+.product-item-shop {
+  gap: 15px;
+}
+
+.suggestion-img-shop {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #FFF;
+  border: 1px solid var(--border-color);
+}
+
+.suggestion-info-shop {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.suggestion-name-shop {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.suggestion-brand-shop {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.suggestion-price-shop {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent-gold);
+}
+
+.text-item-shop {
+  font-size: 14px;
+  color: var(--text-primary);
+  padding-left: 25px;
+}
+
+/* Options Row styles */
+.search-options-row {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.option-select-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  flex: 1;
+  min-width: 160px;
+}
+
+.option-select-container label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+.select-custom-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.premium-select-shop {
+  width: 100%;
+  height: 46px;
+  padding: 0 40px 0 20px;
+  font-size: 14px;
+  border-radius: 23px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  outline: none;
+  cursor: pointer;
+  appearance: none; /* remove default arrow */
+  -webkit-appearance: none;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+.premium-select-shop:focus {
+  border-color: var(--accent-gold);
+  box-shadow: var(--shadow-sm);
+}
+
+.select-arrow-icon {
+  position: absolute;
+  right: 18px;
+  font-size: 16px;
+  color: var(--text-secondary);
+  pointer-events: none;
+}
+
+/* Responsive adjustment */
+@media (max-width: 576px) {
+  .search-options-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .option-select-container {
+    width: 100%;
+  }
+  .search-input-shop {
+    height: 48px;
+    font-size: 14px;
+  }
+}
+

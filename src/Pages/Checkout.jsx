@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Checkout.css";
+import { showToast } from "../utils/toast.js";
 
 export default function Checkout() {
   const [payment, setPayment] = useState("UPI");
@@ -40,19 +41,19 @@ export default function Checkout() {
     if (promoInput.toUpperCase() === "LUXE20") {
       setDiscount(0.20);
       setAppliedPromo("LUXE20");
-      alert("Success! 20% discount has been applied to your order.");
+      showToast("Success! 20% discount has been applied to your order.", "success");
     } else {
-      alert("Invalid promo code. Try 'LUXE20' for a special discount.");
+      showToast("Invalid promo code. Try 'LUXE20' for a special discount.", "error");
     }
   };
 
   const handlePlaceOrder = () => {
     if (cart.length === 0) {
-      alert("Your cart is empty. Please add perfumes to checkout.");
+      showToast("Your cart is empty. Please add perfumes to checkout.", "error");
       return;
     }
     if (!fullName || !phone || !city || !address) {
-      alert("Please fill in all shipping details.");
+      showToast("Please fill in all shipping details.", "error");
       return;
     }
 
@@ -75,7 +76,7 @@ export default function Checkout() {
     allOrders.push(newOrder);
     localStorage.setItem("orders", JSON.stringify(allOrders));
 
-    alert("Order Placed Successfully! Thank you for choosing LUXE SCENT.");
+    showToast("Order Placed Successfully! Thank you for choosing LUXE SCENT.", "success");
     localStorage.removeItem("cart");
     navigate("/profile");
     window.location.reload();

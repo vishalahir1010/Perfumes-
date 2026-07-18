@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/Profile.css";
+import { showToast } from "../utils/toast.js";
 
 export default function Profile() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -14,7 +15,7 @@ export default function Profile() {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("currentUser"));
     if (!user) {
-      alert("Please login to view your profile.");
+      showToast("Please login to view your profile.", "error");
       navigate("/login");
       return;
     }
@@ -68,11 +69,11 @@ export default function Profile() {
       localStorage.setItem("users", JSON.stringify(users));
     }
 
-    alert("Profile Updated Successfully!");
+    showToast("Profile Updated Successfully!", "success");
   };
 
   if (!currentUser) {
-    return null; // Redirecting in useEffect
+    return null; 
   }
 
   return (

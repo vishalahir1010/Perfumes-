@@ -85,8 +85,7 @@ export default function Cart() {
 
               <button 
                 className="cart-checkout-btn" 
-                onClick={() => navigate("/checkout")}
-              >
+                onClick={() => navigate("/checkout")}>
                 Proceed To Checkout
               </button>
             </div>

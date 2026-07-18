@@ -287,6 +287,8 @@
     transition: all 0.3s ease;
     box-shadow: var(--shadow-md);
     z-index: 999;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
   }
 
   .nav-links.active {
@@ -344,10 +346,10 @@
 
   .mobile-user {
     display: block;
-    padding: 15px 25px;
+    padding: 0;
     border-top: 1px solid var(--border-color);
     width: 100%;
-    text-align: left;
+    text-align: center;
   }
 
   .mobile-username {
@@ -356,32 +358,35 @@
     text-transform: uppercase;
     letter-spacing: 1px;
     display: block;
-    margin-bottom: 12px;
+    padding: 18px 20px 12px;
     font-weight: 600;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
   }
 
   .mobile-user-links {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-  }
-
-  .mobile-user-links a {
-    font-size: 15px;
-    color: var(--text-primary);
-    padding: 0;
-    text-decoration: none;
+    gap: 0;
   }
 
   .mobile-logout-btn {
     background: transparent;
     border: none;
     color: #e74c3c;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    text-align: left;
-    padding: 0;
+    text-align: center;
+    padding: 14px 20px;
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+    transition: background-color 0.2s ease;
+  }
+
+  .mobile-logout-btn:hover {
+    background: rgba(231, 76, 60, 0.08);
   }
 
   .mobile-user .login-btn {
@@ -442,3 +447,133 @@
     padding: 0 15px !important;
   }
 }
+
+/* ==================================
+   AUTOCOMPLETE SUGGESTIONS IN NAVBAR
+   ================================== */
+.suggestions-dropdown-navbar {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 320px;
+  background: rgba(18, 18, 22, 0.9); /* fallback dark bg */
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  box-shadow: var(--shadow-md);
+  z-index: 1000;
+  max-height: 380px;
+  overflow-y: auto;
+  text-align: left;
+  padding: 12px 0;
+  animation: navSlideDown 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* For light theme backdrop */
+.light .suggestions-dropdown-navbar {
+  background: rgba(245, 244, 240, 0.95);
+}
+
+@keyframes navSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.suggestions-group-navbar {
+  margin-bottom: 10px;
+}
+
+.suggestions-group-navbar:last-child {
+  margin-bottom: 0;
+}
+
+.suggestions-group-title-navbar {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent-gold);
+  padding: 4px 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.light .suggestions-group-title-navbar {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.suggestion-item-navbar {
+  padding: 8px 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.suggestion-item-navbar:hover {
+  background-color: rgba(212, 175, 55, 0.12);
+  transform: translateX(3px);
+}
+
+.product-item-navbar {
+  gap: 12px;
+}
+
+.suggestion-img-navbar {
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+  border-radius: 4px;
+  background: #FFF;
+  border: 1px solid var(--border-color);
+}
+
+.suggestion-info-navbar {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.suggestion-name-navbar {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.suggestion-brand-navbar {
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+.suggestion-price-navbar {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-gold);
+}
+
+.text-item-navbar {
+  font-size: 13px;
+  color: var(--text-primary);
+  padding-left: 20px;
+}
+
+/* Mobile dropdown adjustment */
+.mobile-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 100%;
+  box-sizing: border-box;
+  max-height: 250px;
+}
+

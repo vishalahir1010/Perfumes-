@@ -168,9 +168,172 @@ body {
   transition: all 0.3s ease;
 }
 
+@media (max-width: 480px) {
+  .card {
+    padding: 12px;
+    border-radius: 12px;
+  }
+  .card img {
+    height: 140px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+  }
+  .card h3 {
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  .card p.price {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+  .card button {
+    height: 36px;
+    font-size: 12px;
+    border-radius: 18px;
+  }
+}
+
 .card button:hover {
   background: var(--accent-gold);
   border-color: var(--accent-gold);
   color: #0E0E10;
   box-shadow: var(--shadow-sm);
 }
+
+/* =========================
+   GLOBAL PREMIUM LOADER
+   ========================= */
+.premium-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 350px;
+  width: 100%;
+  padding: 40px 0;
+}
+
+.spinner {
+  width: 55px;
+  height: 55px;
+  border: 3px solid var(--border-color);
+  border-top-color: var(--accent-gold);
+  border-radius: 50%;
+  animation: spin 1s infinite linear;
+}
+
+.loading-text {
+  margin-top: 24px;
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 3px;
+  animation: pulse 1.6s infinite ease-in-out;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* =========================
+   GLOBAL PRODUCT GRID SYSTEM
+   ========================= */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1024px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================
+   PREMIUM TOAST NOTIFICATIONS
+   ========================= */
+#toast-container {
+  position: fixed;
+  top: 90px;
+  right: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 99999;
+  pointer-events: none;
+}
+
+.toast-message {
+  pointer-events: auto;
+  min-width: 280px;
+  max-width: 400px;
+  background: rgba(18, 18, 22, 0.85); /* Dark gloss */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--accent-gold);
+  border-left: 4px solid var(--accent-gold);
+  border-radius: 8px;
+  color: var(--text-primary);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transform: translateX(120%);
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
+}
+
+.light .toast-message {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.toast-message.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.toast-message.hide {
+  transform: translateX(120%);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.toast-message i {
+  font-size: 18px;
+  color: var(--accent-gold);
+}
+
+.toast-text {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.3px;
+  color: var(--text-primary);
+}
+
+

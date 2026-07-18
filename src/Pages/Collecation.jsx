@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import "../styles/Collecation.css";
+import { showToast } from "../utils/toast.js";
 
 export default function Collecation() {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ export default function Collecation() {
       image: image
     });
     localStorage.setItem("cart", JSON.stringify(cart));
-    alert(name + " Added To Cart");
+    showToast(name + " Added To Cart");
     navigate("/cart");
   };
 
@@ -32,7 +33,7 @@ export default function Collecation() {
         <h2>Luxury Collection</h2>
         <div className="product-grid">
           <div className="card">
-            <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?w=800" alt="Royal Oud" />
+            <img loading="lazy" src="https://images.unsplash.com/photo-1594035910387-fea47794261f?w=800" alt="Royal Oud" />
             <div className="card-content">
               <h3>Royal Oud</h3>
               <p className="price">₹3,499</p>
@@ -43,7 +44,7 @@ export default function Collecation() {
           </div>
 
           <div className="card">
-            <img src="https://images.unsplash.com/photo-1541643600914-78b084683601?w=800" alt="Black Gold" />
+            <img loading="lazy" src="https://images.unsplash.com/photo-1541643600914-78b084683601?w=800" alt="Black Gold" />
             <div className="card-content">
               <h3>Black Gold</h3>
               <p className="price">₹2,999</p>
@@ -54,7 +55,7 @@ export default function Collecation() {
           </div>
 
           <div className="card">
-            <img src="https://images.unsplash.com/photo-1615634260167-c8cdede054de?w=800" alt="Imperial Gold" />
+            <img loading="lazy" src="https://images.unsplash.com/photo-1615634260167-c8cdede054de?w=800" alt="Imperial Gold" />
             <div className="card-content">
               <h3>Imperial Gold</h3>
               <p className="price">₹3,999</p>
@@ -65,7 +66,7 @@ export default function Collecation() {
           </div>
 
           <div className="card">
-            <img src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=800" alt="Majestic Musk" />
+            <img loading="lazy" src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=800" alt="Majestic Musk" />
             <div className="card-content">
               <h3>Majestic Musk</h3>
               <p className="price">₹4,299</p>
@@ -81,7 +82,7 @@ export default function Collecation() {
         <h2>Summer Collection</h2>
         <div className="product-grid">
           <div className="card">
-            <img src="https://images.unsplash.com/photo-1619994403073-2cec4b86eb4c?w=800" alt="Ocean Breeze" />
+            <img loading="lazy" src="https://images.unsplash.com/photo-1619994403073-2cec4b86eb4c?w=800" alt="Ocean Breeze" />
             <div className="card-content">
               <h3>Ocean Breeze</h3>
               <p className="price">₹2,499</p>
@@ -92,7 +93,7 @@ export default function Collecation() {
           </div>
 
           <div className="card">
-            <img src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=800" alt="Citrus Fresh" />
+            <img loading="lazy" src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=800" alt="Citrus Fresh" />
             <div className="card-content">
               <h3>Citrus Fresh</h3>
               <p className="price">₹2,199</p>
@@ -103,7 +104,7 @@ export default function Collecation() {
           </div>
 
           <div className="card">
-            <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=800" alt="Coconut Cove" />
+            <img loading="lazy" src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=800" alt="Coconut Cove" />
             <div className="card-content">
               <h3>Coconut Cove</h3>
               <p className="price">₹2,299</p>
@@ -114,7 +115,7 @@ export default function Collecation() {
           </div>
 
           <div className="card">
-            <img src="https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?w=800" alt="Tropical Oasis" />
+            <img loading="lazy" src="https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?w=800" alt="Tropical Oasis" />
             <div className="card-content">
               <h3>Tropical Oasis</h3>
               <p className="price">₹2,599</p>
@@ -130,7 +131,7 @@ export default function Collecation() {
         <h2>Winter Collection</h2>
         <div className="product-grid">
           <div className="card">
-            <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=800" alt="Amber Night" />
+            <img loading="lazy" src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=800" alt="Amber Night" />
             <div className="card-content">
               <h3>Amber Night</h3>
               <p className="price">₹3,799</p>
@@ -141,7 +142,7 @@ export default function Collecation() {
           </div>
 
           <div className="card">
-            <img src="https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?w=800" alt="Dark Wood" />
+            <img loading="lazy" src="https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?w=800" alt="Dark Wood" />
             <div className="card-content">
               <h3>Dark Wood</h3>
               <p className="price">₹3,199</p>
@@ -152,7 +153,7 @@ export default function Collecation() {
           </div>
 
           <div className="card">
-            <img src="https://images.unsplash.com/photo-1541643600914-78b084683601?w=800" alt="Spiced Vanilla" />
+            <img loading="lazy" src="https://images.unsplash.com/photo-1541643600914-78b084683601?w=800" alt="Spiced Vanilla" />
             <div className="card-content">
               <h3>Spiced Vanilla</h3>
               <p className="price">₹3,499</p>
@@ -163,7 +164,7 @@ export default function Collecation() {
           </div>
 
           <div className="card">
-            <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?w=800" alt="Midnight Forest" />
+            <img loading="lazy" src="https://images.unsplash.com/photo-1594035910387-fea47794261f?w=800" alt="Midnight Forest" />
             <div className="card-content">
               <h3>Midnight Forest</h3>
               <p className="price">₹3,699</p>
@@ -179,7 +180,7 @@ export default function Collecation() {
         <h2>Limited Edition</h2>
         <div className="product-grid">
           <div className="card">
-            <img src="https://images.unsplash.com/photo-1563170351-be82bc888aa4?w=800" alt="Imperial Musk" />
+            <img loading="lazy" src="https://images.unsplash.com/photo-1563170351-be82bc888aa4?w=800" alt="Imperial Musk" />
             <div className="card-content">
               <h3>Imperial Musk</h3>
               <p className="price">₹4,499</p>
@@ -190,7 +191,7 @@ export default function Collecation() {
           </div>
 
           <div className="card">
-            <img src="https://images.unsplash.com/photo-1557170334-a9632e77c6e4?w=800" alt="Diamond Essence" />
+            <img loading="lazy" src="https://images.unsplash.com/photo-1557170334-a9632e77c6e4?w=800" alt="Diamond Essence" />
             <div className="card-content">
               <h3>Diamond Essence</h3>
               <p className="price">₹4,999</p>
@@ -201,7 +202,7 @@ export default function Collecation() {
           </div>
 
           <div className="card">
-            <img src="https://images.unsplash.com/photo-1610113909978-b7933cc94040?w=800" alt="Royal Saffron" />
+            <img loading="lazy" src="https://images.unsplash.com/photo-1610113909978-b7933cc94040?w=800" alt="Royal Saffron" />
             <div className="card-content">
               <h3>Royal Saffron</h3>
               <p className="price">₹5,499</p>
@@ -212,7 +213,7 @@ export default function Collecation() {
           </div>
 
           <div className="card">
-            <img src="https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=800" alt="Golden Elixir" />
+            <img loading="lazy" src="https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=800" alt="Golden Elixir" />
             <div className="card-content">
               <h3>Golden Elixir</h3>
               <p className="price">₹5,999</p>

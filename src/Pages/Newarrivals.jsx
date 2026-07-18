@@ -2,6 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import "../styles/Index.css";
 import "../styles/Shop.css";
+import { showToast } from "../utils/toast.js";
 
 export default function Newarrivals() {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ export default function Newarrivals() {
       image: image
     });
     localStorage.setItem("cart", JSON.stringify(cart));
-    alert(name + " Added To Cart");
+    showToast(name + " Added To Cart");
     navigate("/cart");
   };
 
@@ -33,7 +34,7 @@ export default function Newarrivals() {
         <h2>Latest Perfumes</h2>
         <div className="product-grid">
           <div className="card">
-            <img src="https://images.unsplash.com/photo-1541643600914-78b084683601?w=800" alt="Royal Essence" />
+            <img src="https://images.unsplash.com/photo-1541643600914-78b084683601?w=800" alt="Royal Essence" loading="lazy" />
             <div className="card-content">
               <span className="badge">NEW</span>
               <h3>Royal Essence</h3>
@@ -45,7 +46,7 @@ export default function Newarrivals() {
           </div>
 
           <div className="card">
-            <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=800" alt="Midnight Oud" />
+            <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=800" alt="Midnight Oud" loading="lazy" />
             <div className="card-content">
               <span className="badge">NEW</span>
               <h3>Midnight Oud</h3>
@@ -57,7 +58,7 @@ export default function Newarrivals() {
           </div>
 
           <div className="card">
-            <img src="https://images.unsplash.com/photo-1619994403073-2cec4b86eb4c?w=800" alt="Ocean Fresh" />
+            <img src="https://images.unsplash.com/photo-1619994403073-2cec4b86eb4c?w=800" alt="Ocean Fresh" loading="lazy" />
             <div className="card-content">
               <span className="badge">NEW</span>
               <h3>Ocean Fresh</h3>
@@ -69,7 +70,7 @@ export default function Newarrivals() {
           </div>
 
           <div className="card">
-            <img src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=800" alt="Golden Musk" />
+            <img src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=800" alt="Golden Musk" loading="lazy" />
             <div className="card-content">
               <span className="badge">NEW</span>
               <h3>Golden Musk</h3>

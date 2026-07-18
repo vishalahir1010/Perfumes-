@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import "../styles/Auth.css";
+import { showToast } from "../utils/toast.js";
 
 
 export default function Login() {
@@ -14,7 +15,7 @@ const handleLogin=()=>{
 
 if(!email || !password){
 
-alert("Please fill all fields");
+showToast("Please fill all fields", "error");
 return;
 }
 const users=JSON.parse(localStorage.getItem("users"))||[];
@@ -26,9 +27,7 @@ u.password===password
 
 if(!user){
 
-alert(
-"Account not found. Please Sign Up First"
-);
+showToast("Account not found. Please Sign Up First", "error");
 
 navigate("/signup");
 
@@ -37,7 +36,7 @@ return;
 }
 localStorage.setItem("currentUser",JSON.stringify(user));
 
-alert("Login Successful");
+showToast("Login Successful", "success");
 
 navigate("/");
 
