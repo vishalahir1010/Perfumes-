@@ -164,7 +164,7 @@ const Index = () => {
       </section>
 
       {/* Customer Reviews */}
-      <section className="reviews">
+      {/* <section className="reviews">
         <h2>What Our Clients Say</h2>
         <p className="section-subtitle">Real experiences from our elite fragrance community</p>
         <div className="reviews-grid">
@@ -228,7 +228,7 @@ const Index = () => {
             </p>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Newsletter Section */}
       <section className="newsletter">

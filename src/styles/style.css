@@ -200,6 +200,11 @@ body {
   box-shadow: var(--shadow-sm);
 }
 
+.dark .card button {
+  background: rgb(230, 169, 39);
+  color: #000;
+}
+
 /* =========================
    GLOBAL PREMIUM LOADER
    ========================= */

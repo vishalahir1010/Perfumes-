@@ -51,7 +51,7 @@ export default function About() {
         </div>
       </section>
 
-      <section className="team">
+      {/* <section className="team">
         <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "36px", marginBottom: "40px" }}>Our Master Perfumers</h2>
         <div className="team-grid">
           <div className="team-card">
@@ -72,7 +72,7 @@ export default function About() {
             <p style={{ color: "var(--accent-gold)", fontWeight: "600", textTransform: "uppercase", fontSize: "11px", letterSpacing: "1px", marginTop: "4px" }}>Scent Director</p>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   )
 }
