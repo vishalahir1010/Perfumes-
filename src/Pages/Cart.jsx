@@ -1,15 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Cart.css";
 
 export default function Cart() {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => JSON.parse(localStorage.getItem("cart")) || []);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("cart")) || [];
-    setCart(data);
-  }, []);
 
   const removeItem = (index) => {
     let updated = [...cart];

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useRef } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { data } from "../assets/Perfumes.js";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/Shop.css";
@@ -11,14 +11,12 @@ import {
   IoListOutline 
 } from "react-icons/io5";
 import { showToast } from "../utils/toast.js";
+import { createCartItemId } from "../utils/cart.js";
 
 export default function Shop() {
-  const [product, setProduct] = useState([]);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { search } = useLocation();
 
-  const [searchQuery, setSearchQuery] = useState("");
   const [searchField, setSearchField] = useState("all"); // 'all' | 'name' | 'brand' | 'description'
   const [sortBy, setSortBy] = useState("default"); // 'default' | 'price-asc' | 'price-desc' | 'rating-desc'
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -27,15 +25,13 @@ export default function Shop() {
   const queryParams = useMemo(() => new URLSearchParams(search), [search]);
   const categoryParam = queryParams.get("category");
   const searchParam = queryParams.get("search");
-
-  // Sync search input value with search parameter in the URL
-  useEffect(() => {
-    if (searchParam) {
-      setSearchQuery(searchParam);
-    } else {
-      setSearchQuery("");
-    }
-  }, [searchParam]);
+  const [searchDraft, setSearchDraft] = useState(() => ({
+    searchParam,
+    value: searchParam || ""
+  }));
+  const searchQuery = searchDraft.searchParam === searchParam
+    ? searchDraft.value
+    : (searchParam || "");
 
   // Close suggestions dropdown when clicking outside
   useEffect(() => {
@@ -50,41 +46,35 @@ export default function Shop() {
     };
   }, []);
 
-  useEffect(() => {
-    setLoading(true);
-    
-    setTimeout(() => {
-      let filtered = data;
-      if (categoryParam) {
-        filtered = data.filter(item => item.category && item.category.toLowerCase() === categoryParam.toLowerCase());
-      }
-      if (searchParam) {
-        filtered = filtered.filter(item => {
-          const query = searchParam.toLowerCase().trim();
-          const nameMatch = item.name && item.name.toLowerCase().includes(query);
-          const brandMatch = item.brand && item.brand.toLowerCase().includes(query);
-          const descMatch = item.description && item.description.toLowerCase().includes(query);
-          
-          if (searchField === "name") return nameMatch;
-          if (searchField === "brand") return brandMatch;
-          if (searchField === "description") return descMatch;
-          return nameMatch || brandMatch || descMatch;
-        });
-      }
+  const product = useMemo(() => {
+    let filtered = data;
+    if (categoryParam) {
+      filtered = data.filter(item => item.category && item.category.toLowerCase() === categoryParam.toLowerCase());
+    }
+    if (searchParam) {
+      filtered = filtered.filter(item => {
+        const query = searchParam.toLowerCase().trim();
+        const nameMatch = item.name && item.name.toLowerCase().includes(query);
+        const brandMatch = item.brand && item.brand.toLowerCase().includes(query);
+        const descMatch = item.description && item.description.toLowerCase().includes(query);
 
-      // Apply sorting
-      if (sortBy === "price-asc") {
-        filtered = [...filtered].sort((a, b) => a.price - b.price);
-      } else if (sortBy === "price-desc") {
-        filtered = [...filtered].sort((a, b) => b.price - a.price);
-      } else if (sortBy === "rating-desc") {
-        filtered = [...filtered].sort((a, b) => b.rating - a.rating);
-      }
+        if (searchField === "name") return nameMatch;
+        if (searchField === "brand") return brandMatch;
+        if (searchField === "description") return descMatch;
+        return nameMatch || brandMatch || descMatch;
+      });
+    }
 
-      setProduct(filtered);
-      setLoading(false);
-    }, 500);
-  }, [search, searchField, sortBy]);
+    if (sortBy === "price-asc") {
+      filtered = [...filtered].sort((a, b) => a.price - b.price);
+    } else if (sortBy === "price-desc") {
+      filtered = [...filtered].sort((a, b) => b.price - a.price);
+    } else if (sortBy === "rating-desc") {
+      filtered = [...filtered].sort((a, b) => b.rating - a.rating);
+    }
+
+    return filtered;
+  }, [categoryParam, searchParam, searchField, sortBy]);
 
   // Suggestions computation based on searchQuery
   const suggestions = useMemo(() => {
@@ -111,7 +101,7 @@ export default function Shop() {
 
   const handleInputChange = (e) => {
     const val = e.target.value;
-    setSearchQuery(val);
+    setSearchDraft({ searchParam, value: val });
     if (val.trim()) {
       setShowSuggestions(true);
     } else {
@@ -138,7 +128,7 @@ export default function Shop() {
   };
 
   const handleClearSearch = () => {
-    setSearchQuery("");
+    setSearchDraft({ searchParam, value: "" });
     setShowSuggestions(false);
     const params = new URLSearchParams(search);
     params.delete("search");
@@ -146,7 +136,7 @@ export default function Shop() {
   };
 
   const handleSelectProduct = (productName) => {
-    setSearchQuery(productName);
+    setSearchDraft({ searchParam, value: productName });
     setShowSuggestions(false);
     const params = new URLSearchParams(search);
     params.set("search", productName);
@@ -154,7 +144,7 @@ export default function Shop() {
   };
 
   const handleSelectBrand = (brandName) => {
-    setSearchQuery(brandName);
+    setSearchDraft({ searchParam, value: brandName });
     setShowSuggestions(false);
     const params = new URLSearchParams(search);
     params.set("search", brandName);
@@ -162,7 +152,7 @@ export default function Shop() {
   };
 
   const handleSelectCategory = (categoryName) => {
-    setSearchQuery("");
+    setSearchDraft({ searchParam, value: "" });
     setShowSuggestions(false);
     navigate(`/shop?category=${categoryName.toLowerCase()}`);
   };
@@ -170,7 +160,7 @@ export default function Shop() {
   const addToCart = (item) => {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     cart.push({
-      id: Date.now() + Math.random(),
+      id: createCartItemId(),
       name: item.name,
       price: item.price,
       image: item.image
@@ -352,12 +342,7 @@ export default function Shop() {
           </button>
         </div>
 
-        {loading ? (
-          <div className="premium-loader">
-            <div className="spinner"></div>
-            <div className="loading-text">LUXE SCENT</div>
-          </div>
-        ) : hasFilter ? (
+        {hasFilter ? (
           <>
             <h2>
               {categoryParam ? `${categoryParam.toUpperCase()} Collection` : `Search Results for "${searchParam}"`}

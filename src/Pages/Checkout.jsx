@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Checkout.css";
 import { showToast } from "../utils/toast.js";
 
+const createOrderId = () => `ORD-${Math.floor(100000 + Math.random() * 900000)}`;
+
 export default function Checkout() {
   const [payment, setPayment] = useState("UPI");
-  const [cart, setCart] = useState([]);
-  const [fullName, setFullName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [city, setCity] = useState("");
-  const [address, setAddress] = useState("");
+  const [currentUser] = useState(() => JSON.parse(localStorage.getItem("currentUser")));
+  const [cart, setCart] = useState(() => JSON.parse(localStorage.getItem("cart")) || []);
+  const [fullName, setFullName] = useState(currentUser?.name || "");
+  const [phone, setPhone] = useState(currentUser?.phone || "");
+  const [city, setCity] = useState(currentUser?.city || "");
+  const [address, setAddress] = useState(currentUser?.address || "");
+  const [placedOrder, setPlacedOrder] = useState(null);
   
   // Promo code states
   const [promoInput, setPromoInput] = useState("");
@@ -17,20 +21,6 @@ export default function Checkout() {
   const [appliedPromo, setAppliedPromo] = useState("");
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("cart")) || [];
-    setCart(data);
-
-    // Pre-fill shipping info from currentUser profile if logged in
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    if (currentUser) {
-      setFullName(currentUser.name || "");
-      setPhone(currentUser.phone || "");
-      setCity(currentUser.city || "");
-      setAddress(currentUser.address || "");
-    }
-  }, []);
 
   const subtotal = cart.reduce((sum, item) => sum + Number(item.price), 0);
   const discountAmount = Math.round(subtotal * discount);
@@ -52,23 +42,27 @@ export default function Checkout() {
       showToast("Your cart is empty. Please add perfumes to checkout.", "error");
       return;
     }
-    if (!fullName || !phone || !city || !address) {
+    if (![fullName, phone, city, address].every((value) => value.trim())) {
       showToast("Please fill in all shipping details.", "error");
       return;
     }
 
     // Save order
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    const email = currentUser ? currentUser.email : "guest@luxescent.com";
+    const email = currentUser?.email || null;
     
     const newOrder = {
-      id: "ORD-" + Math.floor(100000 + Math.random() * 900000),
+      id: createOrderId(),
       date: new Date().toLocaleDateString(),
       items: cart,
       total: finalTotal,
       discount: discountAmount,
       payment: payment,
-      shipping: { fullName, phone, city, address },
+      shipping: {
+        fullName: fullName.trim(),
+        phone: phone.trim(),
+        city: city.trim(),
+        address: address.trim()
+      },
       email: email
     };
 
@@ -76,86 +70,146 @@ export default function Checkout() {
     allOrders.push(newOrder);
     localStorage.setItem("orders", JSON.stringify(allOrders));
 
-    showToast("Order Placed Successfully! Thank you for choosing LUXE SCENT.", "success");
+    showToast("Order placed successfully! Thank you for choosing LUXE SCENT.", "success");
     localStorage.removeItem("cart");
-    navigate("/profile");
-    window.location.reload();
+    setCart([]);
+    setPlacedOrder(newOrder);
   };
 
   return (
     <div className="checkout-page">
+      {placedOrder ? (
+        <section className="order-confirmation" aria-live="polite">
+          <i className="fa-solid fa-circle-check" aria-hidden="true"></i>
+          <h1>Thank you for your order</h1>
+          <p>Your order has been recorded successfully.</p>
+          <dl className="order-confirmation-details">
+            <div>
+              <dt>Order number</dt>
+              <dd>{placedOrder.id}</dd>
+            </div>
+            <div>
+              <dt>Order total</dt>
+              <dd>₹{placedOrder.total.toLocaleString("en-IN")}</dd>
+            </div>
+          </dl>
+          <p className="order-confirmation-note">
+            {placedOrder.email
+              ? "You can find this order in your account's order history."
+              : "Keep your order number for your records. Order details are saved in this browser."}
+          </p>
+          <button
+            className="place-order-btn"
+            onClick={() => navigate(placedOrder.email ? "/orders" : "/shop")}
+          >
+            {placedOrder.email ? "View Order History" : "Continue Shopping"}
+          </button>
+        </section>
+      ) : (
+        <>
       <div className="checkout-left">
-        <h1>Secure Checkout</h1>
+        <h1>Checkout</h1>
         
         <div className="checkout-card">
           <h3><i className="fa-solid fa-truck" style={{ color: "var(--accent-gold)", marginRight: "10px" }}></i> Shipping Address</h3>
           <div className="shipping-fields">
+            <label htmlFor="checkout-full-name">Full Name</label>
             <input
+              id="checkout-full-name"
               type="text"
               placeholder="Full Name"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              required
             />
+            <label htmlFor="checkout-phone">Phone Number</label>
             <input
+              id="checkout-phone"
               type="tel"
               placeholder="Phone Number"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              required
             />
+            <label htmlFor="checkout-city">City</label>
             <input
+              id="checkout-city"
               type="text"
               placeholder="City"
               value={city}
               onChange={(e) => setCity(e.target.value)}
-              required
             />
+            <label htmlFor="checkout-address">Full Address</label>
             <textarea
+              id="checkout-address"
               placeholder="Full Address"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-              required
             />
           </div>
         </div>
 
         <div className="checkout-card">
           <h3><i className="fa-solid fa-credit-card" style={{ color: "var(--accent-gold)", marginRight: "10px" }}></i> Payment Method</h3>
-          <div className="payment-options">
-            <div 
+          <fieldset className="payment-options" aria-label="Payment method">
+            <label
+              htmlFor="payment-upi"
               className={`payment-option-card ${payment === "UPI" ? "active" : ""}`}
-              onClick={() => setPayment("UPI")}
             >
+              <input
+                id="payment-upi"
+                className="payment-option-radio"
+                type="radio"
+                name="payment"
+                value="UPI"
+                checked={payment === "UPI"}
+                onChange={() => setPayment("UPI")}
+              />
               <i className="fa-solid fa-mobile-screen-button"></i>
               <div className="payment-option-info">
                 <span>UPI Payments</span>
-                <small>Pay instantly via Google Pay, PhonePe or Paytm</small>
+                <small>Selected for this demo order; no payment is processed.</small>
               </div>
-            </div>
+            </label>
             
-            <div 
+            <label
+              htmlFor="payment-card"
               className={`payment-option-card ${payment === "CARD" ? "active" : ""}`}
-              onClick={() => setPayment("CARD")}
             >
+              <input
+                id="payment-card"
+                className="payment-option-radio"
+                type="radio"
+                name="payment"
+                value="CARD"
+                checked={payment === "CARD"}
+                onChange={() => setPayment("CARD")}
+              />
               <i className="fa-solid fa-credit-card"></i>
               <div className="payment-option-info">
                 <span>Credit / Debit Card</span>
-                <small>Secure payments with Visa, Mastercard or RuPay</small>
+                <small>Selected for this demo order; no payment is processed.</small>
               </div>
-            </div>
+            </label>
             
-            <div 
+            <label
+              htmlFor="payment-cod"
               className={`payment-option-card ${payment === "COD" ? "active" : ""}`}
-              onClick={() => setPayment("COD")}
             >
+              <input
+                id="payment-cod"
+                className="payment-option-radio"
+                type="radio"
+                name="payment"
+                value="COD"
+                checked={payment === "COD"}
+                onChange={() => setPayment("COD")}
+              />
               <i className="fa-solid fa-hand-holding-dollar"></i>
               <div className="payment-option-info">
                 <span>Cash On Delivery (COD)</span>
-                <small>Pay by cash or card upon package arrival</small>
+                <small>Selected for this demo order; no payment is processed.</small>
               </div>
-            </div>
-          </div>
+            </label>
+          </fieldset>
         </div>
       </div>
 
@@ -216,15 +270,17 @@ export default function Checkout() {
           </div>
 
           <button className="place-order-btn" onClick={handlePlaceOrder}>
-            Complete Secure Order
+            Place Demo Order
           </button>
           
-          <div className="secure-badge">
-            <i className="fa-solid fa-lock"></i>
-            <span>SSL Secured & 256-bit Encrypted Checkout</span>
+          <div className="checkout-disclaimer">
+            <i className="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <span>Demo checkout: no payment is processed.</span>
           </div>
         </div>
       </div>
+        </>
+      )}
     </div>
   );
 }

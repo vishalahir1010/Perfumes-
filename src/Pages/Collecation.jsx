@@ -1,7 +1,7 @@
-import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import "../styles/Collecation.css";
 import { showToast } from "../utils/toast.js";
+import { createCartItemId } from "../utils/cart.js"
 
 export default function Collecation() {
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ export default function Collecation() {
   const addToCart = (name, price, image) => {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     cart.push({
-      id: Date.now() + Math.random(),
+      id: createCartItemId(),
       name: name,
       price: price,
       image: image

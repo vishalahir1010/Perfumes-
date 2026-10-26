@@ -1,37 +1,26 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/Profile.css";
 import { showToast } from "../utils/toast.js";
 
 export default function Profile() {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [orders, setOrders] = useState([]);
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
+  const [currentUser, setCurrentUser] = useState(() => JSON.parse(localStorage.getItem("currentUser")));
+  const [orders] = useState(() => {
+    const allOrders = JSON.parse(localStorage.getItem("orders")) || [];
+    return currentUser ? allOrders.filter(order => order.email === currentUser.email) : [];
+  });
+  const [phone, setPhone] = useState(currentUser?.phone || "");
+  const [address, setAddress] = useState(currentUser?.address || "");
+  const [city, setCity] = useState(currentUser?.city || "");
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("currentUser"));
-    if (!user) {
+    if (!currentUser) {
       showToast("Please login to view your profile.", "error");
       navigate("/login");
-      return;
     }
-    setCurrentUser(user);
-
-    // Load orders
-    const allOrders = JSON.parse(localStorage.getItem("orders")) || [];
-    // Filter orders for the logged-in user by email
-    const userOrders = allOrders.filter(order => order.email === user.email);
-    setOrders(userOrders);
-
-    // Mock initial user metadata
-    setPhone(user.phone || "9876543210");
-    setAddress(user.address || "123, Luxury Residency");
-    setCity(user.city || "Mumbai");
-  }, [navigate]);
+  }, [currentUser, navigate]);
 
   useEffect(() => {
     if (location.pathname === "/orders") {
@@ -47,11 +36,15 @@ export default function Profile() {
   const handleUpdateProfile = (e) => {
     e.preventDefault();
     if (!currentUser) return;
+    if (![phone, city, address].every((value) => value.trim())) {
+      showToast("Please fill in all delivery details.", "error");
+      return;
+    }
     const updatedUser = {
       ...currentUser,
-      phone: phone,
-      address: address,
-      city: city
+      phone: phone.trim(),
+      address: address.trim(),
+      city: city.trim()
     };
     localStorage.setItem("currentUser", JSON.stringify(updatedUser));
     setCurrentUser(updatedUser);
@@ -62,9 +55,9 @@ export default function Profile() {
     if (index !== -1) {
       users[index] = {
         ...users[index],
-        phone: phone,
-        address: address,
-        city: city
+        phone: phone.trim(),
+        address: address.trim(),
+        city: city.trim()
       };
       localStorage.setItem("users", JSON.stringify(users));
     }
@@ -94,8 +87,9 @@ export default function Profile() {
             <h2>Account Details</h2>
             <form onSubmit={handleUpdateProfile} className="profile-form">
               <div className="profile-form-group">
-                <label>Full Name</label>
+                <label htmlFor="profile-name">Full Name</label>
                 <input 
+                  id="profile-name"
                   type="text" 
                   value={currentUser.name} 
                   disabled 
@@ -104,8 +98,9 @@ export default function Profile() {
               </div>
 
               <div className="profile-form-group">
-                <label>Email Address</label>
+                <label htmlFor="profile-email">Email Address</label>
                 <input 
+                  id="profile-email"
                   type="email" 
                   value={currentUser.email} 
                   disabled 
@@ -114,8 +109,9 @@ export default function Profile() {
               </div>
 
               <div className="profile-form-group">
-                <label>Phone Number</label>
+                <label htmlFor="profile-phone">Phone Number</label>
                 <input 
+                  id="profile-phone"
                   type="tel" 
                   value={phone} 
                   onChange={(e) => setPhone(e.target.value)} 
@@ -125,8 +121,9 @@ export default function Profile() {
               </div>
 
               <div className="profile-form-group">
-                <label>City</label>
+                <label htmlFor="profile-city">City</label>
                 <input 
+                  id="profile-city"
                   type="text" 
                   value={city} 
                   onChange={(e) => setCity(e.target.value)} 
@@ -136,8 +133,9 @@ export default function Profile() {
               </div>
 
               <div className="profile-form-group">
-                <label>Delivery Address</label>
+                <label htmlFor="profile-address">Delivery Address</label>
                 <textarea 
+                  id="profile-address"
                   value={address} 
                   onChange={(e) => setAddress(e.target.value)} 
                   required 

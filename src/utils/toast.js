@@ -36,7 +36,6 @@ export const showToast = (message, type = "success") => {
   container.appendChild(toast);
 
   // Trigger browser paint to ensure transition triggers
-  // eslint-disable-next-line no-unused-expressions
   toast.offsetHeight;
 
   toast.classList.add("show");

@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useMemo, useRef, useContext } from "react";
+import { useState, useEffect, useMemo, useRef, useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "../styles/Navbar.css";
-import { ThemContext } from '../Pages/ThemContext';
+import { ThemContext } from '../Pages/ThemContextValue.js';
 import "../App.css"
 import { 
   IoSunny, 
@@ -18,10 +18,10 @@ export default function Navbar() {
     const navigate = useNavigate();
 
     // Lazy initialization of currentUser state
-    const [currentUser, setCurrentUser] = useState(() => {
+    const [currentUser] = useState(() => {
         try {
             return JSON.parse(localStorage.getItem("currentUser"));
-        } catch (e) {
+        } catch {
             return null;
         }
     });
@@ -105,7 +105,7 @@ export default function Navbar() {
         try {
             const cart = JSON.parse(localStorage.getItem("cart"));
             return cart ? cart.length : 0;
-        } catch (e) {
+        } catch {
             return 0;
         }
     });
@@ -136,7 +136,8 @@ export default function Navbar() {
     const closeMenu = () => setIsNavActive(false);
 
     const triggerSearch = (searchVal) => {
-        navigate(`/shop?search=${searchVal}`);
+        const query = searchVal.trim();
+        navigate(query ? `/shop?${new URLSearchParams({ search: query })}` : "/shop");
         setIsNavActive(false);
     };
 

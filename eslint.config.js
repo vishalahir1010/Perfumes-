@@ -18,4 +18,10 @@ export default defineConfig([
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
   },
+  {
+    files: ['src/assets/script.js'],
+    languageOptions: {
+      sourceType: 'script',
+    },
+  },
 ])

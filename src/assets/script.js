@@ -1,3 +1,5 @@
+/* exported addToWishlist, registerUser, loginUser, logout, addToCart, removeWishlist, removeCart, searchProducts, isAdmin */
+
 function addToWishlist(name, price, image){
 
     let wishlist =

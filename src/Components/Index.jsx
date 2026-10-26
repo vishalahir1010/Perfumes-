@@ -1,7 +1,7 @@
-import React from 'react'
 import "../styles/Index.css"
 import { NavLink, useNavigate } from 'react-router-dom'
 import { data } from "../assets/Perfumes.js"
+import { createCartItemId } from "../utils/cart.js"
 
 const Index = () => {
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ const Index = () => {
   const addToCart = (name, price, image) => {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     cart.push({
-      id: Date.now() + Math.random(),
+      id: createCartItemId(),
       name: name,
       price: price,
       image: image
